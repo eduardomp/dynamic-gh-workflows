@@ -15,7 +15,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running build from JAVA/SPRINGBOOT"
+      - run: echo "Running build from JAVA SPRINGBOOT"
         #with:
         #  username: ${{ inputs.username }}
         #  token: ${{ secrets.token }}
