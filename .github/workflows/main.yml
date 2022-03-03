@@ -6,13 +6,16 @@ on:
       repo:
         description: Target repository
         required: true
+      pat:
+        description: Personal access token
+        type: password
       stack:
         type: choice
         description: Choose a stack
         options:
-          - JAVA_SPRINGBOOT
-          - JAVA_QUARKUS
-          - DOTNET_DEFAULT
+          - JAVA/SPRINGBOOT
+          - JAVA/QUARKUS
+          - DOTNET/DEFAULT
       build:
         type: boolean
         description: Build?
@@ -31,7 +34,7 @@ on:
         default: true
 
 jobs:
-  greet:
+  pipeline:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,3 +46,8 @@ jobs:
           echo "  TESTS: ${{ github.event.inputs.tests }}"
           echo "PACKAGE: ${{ github.event.inputs.package }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
+
+      - name: Clone repository
+
+      - name: Build
+        uses: ./.github/workflows/${{ github.event.inputs.stack }}/build.yml
