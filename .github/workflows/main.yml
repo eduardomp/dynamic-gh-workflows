@@ -46,8 +46,6 @@ jobs:
           echo "PACKAGE: ${{ github.event.inputs.package }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
-      - name: Clone repository
-
       - name: Build
         uses: ./.github/workflows/${{ github.event.inputs.stack }}/build.yml
         if: ${{ github.event.inputs.build }}
