@@ -37,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
+
       - name: Show options
         run: |
           echo "   REPO: ${{ github.event.inputs.repo }}"
