@@ -1,4 +1,4 @@
-name: Build
+name: Build Springboot
 
 on:
   workflow_call:
