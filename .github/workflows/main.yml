@@ -1,0 +1,45 @@
+name: Main
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo:
+        description: Target repository
+        required: true
+      stack:
+        type: choice
+        description: Choose a stack
+        options:
+          - JAVA_SPRINGBOOT
+          - JAVA_QUARKUS
+          - DOTNET_DEFAULT
+      build:
+        type: boolean
+        description: Build?
+        default: true
+      tests:
+        type: boolean
+        description: Unit tests?
+        default: true
+      package:
+        type: boolean
+        description: Package?
+        default: true
+      publish:
+        type: boolean
+        description: Publish?
+        default: true
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show options
+        run: |
+          echo "   REPO: ${{ github.event.inputs.repo }}"
+          echo "  STACK: ${{ github.event.inputs.stack }}"
+          echo "  BUILD: ${{ github.event.inputs.build }}"
+          echo "  TESTS: ${{ github.event.inputs.tests }}"
+          echo "PACKAGE: ${{ github.event.inputs.package }}"
+          echo "PUBLISH: ${{ github.event.inputs.publish }}"
