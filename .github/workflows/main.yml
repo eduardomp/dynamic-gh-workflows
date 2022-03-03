@@ -13,8 +13,8 @@ on:
         type: choice
         description: Choose a stack
         options:
-          - JAVA-SPRINGBOOT
-          - JAVA-QUARKUS
+          - JAVA SPRINGBOOT
+          - JAVA QUARKUS
       build:
         type: boolean
         description: Build?
@@ -49,9 +49,9 @@ jobs:
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
       - name: Build Java/SpringBoot
-        uses: ./.github/workflows/JAVA/SPRINGBOOT/build.yml
-        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA-SPRINGBOOT' }}
+        uses: ./.github/workflows/JAVA_SPRINGBOOT_BUILD.yml
+        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA SPRINGBOOT' }}
 
       - name: Build Java/Quarkus
-        uses: ./.github/workflows/JAVA/QUARKUS/build.yml
-        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA-QUARKUS' }}
+        uses: ./.github/workflows/JAVA_QUARKUS_BUILD.yml
+        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA QUARKUS' }}

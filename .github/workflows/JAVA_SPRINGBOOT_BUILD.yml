@@ -1,4 +1,4 @@
-name: Package
+name: Build
 
 on:
   workflow_call:
@@ -12,10 +12,10 @@ on:
 
 jobs:
   Build:
-    name: Package
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Running Package from JAVA/QUARKUS"
+      - run: echo "Running build from JAVA/SPRINGBOOT"
         #with:
         #  username: ${{ inputs.username }}
         #  token: ${{ secrets.token }}
