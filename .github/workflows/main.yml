@@ -15,7 +15,6 @@ on:
         options:
           - JAVA/SPRINGBOOT
           - JAVA/QUARKUS
-          - DOTNET/DEFAULT
       build:
         type: boolean
         description: Build?
@@ -51,3 +50,4 @@ jobs:
 
       - name: Build
         uses: ./.github/workflows/${{ github.event.inputs.stack }}/build.yml
+        if: ${{ github.event.inputs.build }}

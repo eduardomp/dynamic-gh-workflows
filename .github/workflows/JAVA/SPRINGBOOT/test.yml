@@ -1,0 +1,21 @@
+name: Test
+
+on:
+  workflow_call:
+  #  inputs:
+  #    username:
+  #      required: true
+  #      type: string
+  #  secrets:
+  #    token:
+  #      required: true
+
+jobs:
+  Build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running Tests from JAVA/QUARKUS"
+        #with:
+        #  username: ${{ inputs.username }}
+        #  token: ${{ secrets.token }}
