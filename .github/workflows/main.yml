@@ -46,6 +46,10 @@ jobs:
           echo "PACKAGE: ${{ github.event.inputs.package }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
-      - name: Build
-        uses: ./.github/workflows/${{ github.event.inputs.stack }}/build.yml
-        if: ${{ github.event.inputs.build }}
+      - name: Build Java/SpringBoot
+        uses: ./.github/workflows/JAVA/SPRINGBOOT/build.yml
+        if: ${{ github.event.inputs.build == true && github.event.inputs.stack == "JAVA/SPRINGBOOT" }}
+
+      - name: Build Java/Quarkus
+        uses: ./.github/workflows/JAVA/QUARKUS/build.yml
+        if: ${{ github.event.inputs.build == true && github.event.inputs.stack == "JAVA/QUARKUS" }}
