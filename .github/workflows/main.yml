@@ -33,11 +33,9 @@ on:
         default: true
 
 jobs:
-  pipeline:
+  start:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
       - name: Show options
         run: |
           echo "   REPO: ${{ github.event.inputs.repo }}"
@@ -47,9 +45,22 @@ jobs:
           echo "PACKAGE: ${{ github.event.inputs.package }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
+      - uses: actions/checkout@v2
+
   build:
+    needs:
+      - start
     if: ${{ github.event.inputs.build == 'true'}}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/BUILD.yml@main
     with:
       build: ${{ github.event.inputs.build }}
+      stack: ${{ github.event.inputs.stack }}
+
+  tests:
+    needs:
+      - build
+    if: ${{ github.event.inputs.tests == 'true'}}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/TESTS.yml@main
+    with:
+      tests: ${{ github.event.inputs.tests }}
       stack: ${{ github.event.inputs.stack }}
