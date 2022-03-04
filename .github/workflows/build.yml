@@ -9,9 +9,9 @@ on:
       build:
         type: string
         required: true
-  #  secrets:
-  #    token:
-  #      required: true
+      secrets:
+        my_pat:
+          required: true
 
 jobs:
   ###############################################################################

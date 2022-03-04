@@ -47,6 +47,8 @@ jobs:
     with:
       tests: ${{ github.event.inputs.tests }}
       stack: ${{ github.event.inputs.stack }}
+    secrets:
+      my_pat: ${{ secrets.my_pat }}
 
   build:
     needs:
@@ -56,6 +58,8 @@ jobs:
     with:
       build: ${{ github.event.inputs.build }}
       stack: ${{ github.event.inputs.stack }}
+    secrets:
+      my_pat: ${{ secrets.my_pat }}
 
   publish:
     needs:
@@ -65,3 +69,5 @@ jobs:
     with:
       publish: ${{ github.event.inputs.publish }}
       stack: ${{ github.event.inputs.stack }}
+    secrets:
+      my_pat: ${{ secrets.my_pat }}
