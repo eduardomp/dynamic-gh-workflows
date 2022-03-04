@@ -35,7 +35,6 @@ on:
 jobs:
   pipeline:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -48,10 +47,12 @@ jobs:
           echo "PACKAGE: ${{ github.event.inputs.package }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
-      - name: Build Java/SpringBoot
-        uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_SPRINGBOOT_BUILD.yml@main
-        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA SPRINGBOOT' }}
+  build_java_spring:
+    - name: Build Java/SpringBoot
+      uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_SPRINGBOOT_BUILD.yml@main
+      if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA SPRINGBOOT' }}
 
-      - name: Build Java/Quarkus
-        uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
-        if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA QUARKUS' }}
+  build_java_quarkus:
+    - name: Build Java/Quarkus
+      uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
+      if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA QUARKUS' }}
