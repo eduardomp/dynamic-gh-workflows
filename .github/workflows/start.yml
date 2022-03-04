@@ -1,4 +1,4 @@
-name: Main
+name: Start
 
 on:
   workflow_dispatch:
@@ -6,61 +6,62 @@ on:
       repo:
         description: Target repository
         required: true
-      pat:
-        description: Personal access token
-        type: password
       stack:
         type: choice
-        description: Choose a stack
+        description: Choose a language stack
         options:
           - JAVA SPRINGBOOT
           - JAVA QUARKUS
-      build:
-        type: boolean
-        description: Build?
-        default: true
       tests:
         type: boolean
         description: Unit tests?
         default: true
-      package:
+      build:
         type: boolean
-        description: Package?
+        description: Build? [depends on tests]
         default: true
       publish:
         type: boolean
-        description: Publish?
+        description: Publish? [depends on build]
         default: true
 
 jobs:
   start:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
+
       - name: Show options
         run: |
           echo "   REPO: ${{ github.event.inputs.repo }}"
           echo "  STACK: ${{ github.event.inputs.stack }}"
-          echo "  BUILD: ${{ github.event.inputs.build }}"
           echo "  TESTS: ${{ github.event.inputs.tests }}"
-          echo "PACKAGE: ${{ github.event.inputs.package }}"
+          echo "  BUILD: ${{ github.event.inputs.build }}"
           echo "PUBLISH: ${{ github.event.inputs.publish }}"
 
-      - uses: actions/checkout@v2
+  tests:
+    needs:
+      - start
+    if: ${{ github.event.inputs.tests == 'true'}}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
+    with:
+      tests: ${{ github.event.inputs.tests }}
+      stack: ${{ github.event.inputs.stack }}
 
   build:
     needs:
-      - start
+      - tests
     if: ${{ github.event.inputs.build == 'true'}}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/BUILD.yml@main
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
     with:
       build: ${{ github.event.inputs.build }}
       stack: ${{ github.event.inputs.stack }}
 
-  tests:
+  publish:
     needs:
       - build
-    if: ${{ github.event.inputs.tests == 'true'}}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/TESTS.yml@main
+    if: ${{ github.event.inputs.publish == 'true'}}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
     with:
-      tests: ${{ github.event.inputs.tests }}
+      publish: ${{ github.event.inputs.publish }}
       stack: ${{ github.event.inputs.stack }}

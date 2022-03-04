@@ -1,4 +1,4 @@
-name: Tests
+name: Publish
 
 on:
   workflow_call:
@@ -6,7 +6,7 @@ on:
       stack:
         type: string
         required: true
-      tests:
+      publish:
         type: string
         required: true
   #  secrets:
@@ -17,9 +17,9 @@ jobs:
 
  ###############################################################################
 
-  tests_java_spring:
+  publish_java_spring:
     runs-on: ubuntu-latest
-    if: ${{ inputs.tests == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
+    if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
     steps:
       #Its needed to check out the target repo in every separeted job
       - name: Check out target repo
@@ -30,14 +30,14 @@ jobs:
       
       #its possible to use a shell script to run the tests
       - run: |
-        echo "Running tests from JAVA SPRINGBOOT"
+        echo "Running publish from JAVA SPRINGBOOT"
         ls -la
 
 ###############################################################################
 
-  tests_java_quarkus:
+  publish_java_quarkus:
     runs-on: ubuntu-latest
-    if: ${{ inputs.tests == 'true' && inputs.stack == 'JAVA QUARKUS' }}
+    if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA QUARKUS' }}
     steps:
       #Its needed to check out the target repo in every separeted job
       - name: Check out target repo
@@ -48,7 +48,7 @@ jobs:
       
       #its possible to use a shell script to run the tests
       - run: |
-        echo "Running build from JAVA QUARKUS"
+        echo "Running publish from JAVA QUARKUS"
         ls -la
 
 ###############################################################################

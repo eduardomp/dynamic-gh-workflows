@@ -14,14 +14,41 @@ on:
   #      required: true
 
 jobs:
+
+###############################################################################
+
   build_java_spring:
     runs-on: ubuntu-latest
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
     steps:
-      - run: echo "Running build from JAVA SPRINGBOOT"
+      #Its needed to check out the target repo in every separeted job
+      - name: Check out target repo
+        uses: actions/checkout@master
+        with:
+          repository: ${{ github.event.inputs.repo }}
+          token: ${{ secrets.my_pat }}
+      
+      #its possible to use a shell script to run the build
+      - run: |
+        echo "Running build from JAVA SPRINGBOOT"
+        ls -la
+
+###############################################################################
 
   build_java_quarkus:
     runs-on: ubuntu-latest
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA QUARKUS' }}
     steps:
-      - run: echo "Running build from JAVA QUARKUS"
+      #Its needed to check out the target repo in every separeted job
+      - name: Check out target repo
+        uses: actions/checkout@master
+        with:
+          repository: ${{ github.event.inputs.repo }}
+          token: ${{ secrets.my_pat }}
+      
+      #its possible to use a shell script to run the build
+      - run: |
+        echo "Running build from JAVA QUARKUS"
+        ls -la
+        
+###############################################################################
