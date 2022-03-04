@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: ${{ github.event.inputs.repo }}
-          token: ${{ secrets.my_pat }}
+          token: ${{ secrets.MY_PAT }}
 
       #its possible to use a shell script to run the tests
       - run: |
