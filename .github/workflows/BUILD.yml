@@ -15,11 +15,13 @@ on:
 
 jobs:
   build_java_spring:
+    runs-on: ubuntu-latest
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
     steps:
       - run: echo "Running build from JAVA SPRINGBOOT"
 
   build_java_quarkus:
+    runs-on: ubuntu-latest
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA QUARKUS' }}
     steps:
       - run: echo "Running build from JAVA QUARKUS"
