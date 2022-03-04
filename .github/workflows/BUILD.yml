@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      stack:
+        type: string
+        required: true
+      build:
+        type: boolean
+        default: true
+  #  secrets:
+  #    token:
+  #      required: true
+
+jobs:
+ build_java_spring:
+    if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_SPRINGBOOT_BUILD.yml@main
+
+  build_java_quarkus:
+    if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA QUARKUS' }}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
