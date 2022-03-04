@@ -16,8 +16,10 @@ on:
 jobs:
   build_java_spring:
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_SPRINGBOOT_BUILD.yml@main
+    steps:
+      - run: echo "Running build from JAVA SPRINGBOOT"
 
   build_java_quarkus:
     if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA QUARKUS' }}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
+    steps:
+      - run: echo "Running build from JAVA QUARKUS"
