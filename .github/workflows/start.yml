@@ -3,8 +3,11 @@ name: Start
 on:
   workflow_dispatch:
     inputs:
-      repo:
-        description: Target repository
+      repo_owner:
+        description: Target repository owner
+        required: true
+      repo_name:
+        description: Target repository name
         required: true
       stack:
         type: choice

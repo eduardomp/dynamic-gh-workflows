@@ -24,7 +24,7 @@ jobs:
       - name: Check out target repo
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.inputs.repo }}
+          repository: ${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}
           token: ${{ secrets.my_pat }}
 
       #its possible to use a shell script to run the build
@@ -42,7 +42,7 @@ jobs:
       - name: Check out target repo
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.inputs.repo }}
+          repository: ${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}
           token: ${{ secrets.my_pat }}
 
       #its possible to use a shell script to run the build
