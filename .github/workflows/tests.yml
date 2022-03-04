@@ -9,9 +9,9 @@ on:
       tests:
         type: string
         required: true
-      secrets:
-        my_pat:
-          required: true
+    secrets:
+      my_pat:
+        required: true
 
 jobs:
   ###############################################################################
