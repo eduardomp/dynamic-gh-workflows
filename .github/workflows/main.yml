@@ -53,4 +53,4 @@ jobs:
 
   build_java_quarkus:
     if: ${{ github.event.inputs.build == 'true' && github.event.inputs.stack == 'JAVA QUARKUS' }}
-      - uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/JAVA_QUARKUS_BUILD.yml@main
