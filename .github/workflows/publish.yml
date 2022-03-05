@@ -15,15 +15,19 @@ on:
       repo_name:
         type: string
         required: true
-    secrets:
-      my_pat:
+      pat:
+        type: string
         required: true
+        description: Personal Access Token (PAT)
+    #secrets:
+    #  my_pat:
+    #    required: true
 
 jobs:
   # JAVA SPRINGBOOT STACK
 
   publish_java_spring:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
     steps:
       #Its needed to check out the target repo in every separeted job
@@ -31,7 +35,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-          token: ${{ secrets.my_pat }}
+          token: ${{ inputs.pat }}
 
       #its possible to use a shell script to run the tests
       - run: |
@@ -41,7 +45,7 @@ jobs:
   # JAVA MAVEN STACK
 
   publish_java_maven:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA MAVEN' }}
     steps:
       #Its needed to check out the target repo in every separeted job
@@ -49,7 +53,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-          token: ${{ secrets.my_pat }}
+          token: ${{ inputs.pat }}
 
       #its possible to use a shell script to run the tests
       - run: |
