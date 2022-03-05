@@ -9,7 +9,7 @@ on:
       build:
         type: string
         required: true
-      repo_onwer:
+      repo_owner:
         type: string
         required: true
       repo_name:
