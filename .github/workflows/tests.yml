@@ -9,12 +9,18 @@ on:
       tests:
         type: string
         required: true
+      repo_onwer:
+        type: string
+        required: true
+      repo_name:
+        type: string
+        required: true
     secrets:
       my_pat:
         required: true
 
 jobs:
-  ###############################################################################
+  # JAVA SPRINGBOOT STACK
 
   tests_java_spring:
     runs-on: ubuntu-latest
@@ -24,7 +30,7 @@ jobs:
       - name: Check out target repo
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}
+          repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
           token: ${{ secrets.my_pat }}
 
       #its possible to use a shell script to run the tests
@@ -32,22 +38,20 @@ jobs:
           echo "Running tests from JAVA SPRINGBOOT"
           ls -la
 
-  ###############################################################################
+  # JAVA MAVEN STACK
 
-  tests_java_quarkus:
+  tests_java_maven:
     runs-on: ubuntu-latest
-    if: ${{ inputs.tests == 'true' && inputs.stack == 'JAVA QUARKUS' }}
+    if: ${{ inputs.tests == 'true' && inputs.stack == 'JAVA MAVEN' }}
     steps:
       #Its needed to check out the target repo in every separeted job
       - name: Check out target repo
         uses: actions/checkout@master
         with:
-          repository: ${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}
+          repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
           token: ${{ secrets.my_pat }}
 
       #its possible to use a shell script to run the tests
       - run: |
-          echo "Running build from JAVA QUARKUS"
+          echo "Running build from JAVA MAVEN"
           ls -la
-
-###############################################################################

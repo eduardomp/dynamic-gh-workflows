@@ -13,8 +13,9 @@ on:
         type: choice
         description: Choose a language stack
         options:
+          - JAVA MAVEN
           - JAVA SPRINGBOOT
-          - JAVA QUARKUS
+          #add new stacks here
       tests:
         type: boolean
         description: Unit tests?
@@ -27,16 +28,16 @@ on:
         type: boolean
         description: Publish? [depends on build]
         default: true
-
+      #If you need, add more inputs here (for a new phase for example)
 jobs:
   start:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      #- uses: actions/checkout@master
 
       - name: Show options
         run: |
-          echo "   REPO: ${{ github.event.inputs.repo }}"
+          echo "   REPO: ${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}"
           echo "  STACK: ${{ github.event.inputs.stack }}"
           echo "  TESTS: ${{ github.event.inputs.tests }}"
           echo "  BUILD: ${{ github.event.inputs.build }}"
@@ -50,6 +51,8 @@ jobs:
     with:
       tests: ${{ github.event.inputs.tests }}
       stack: ${{ github.event.inputs.stack }}
+      repo_owner: ${{ github.event.inputs.repo_owner }}
+      repo_name: ${{ github.event.inputs.repo_name }}
     secrets:
       my_pat: ${{ secrets.my_pat }}
 
@@ -61,6 +64,8 @@ jobs:
     with:
       build: ${{ github.event.inputs.build }}
       stack: ${{ github.event.inputs.stack }}
+      repo_owner: ${{ github.event.inputs.repo_owner }}
+      repo_name: ${{ github.event.inputs.repo_name }}
     secrets:
       my_pat: ${{ secrets.my_pat }}
 
@@ -72,5 +77,7 @@ jobs:
     with:
       publish: ${{ github.event.inputs.publish }}
       stack: ${{ github.event.inputs.stack }}
+      repo_owner: ${{ github.event.inputs.repo_owner }}
+      repo_name: ${{ github.event.inputs.repo_name }}
     secrets:
       my_pat: ${{ secrets.my_pat }}
