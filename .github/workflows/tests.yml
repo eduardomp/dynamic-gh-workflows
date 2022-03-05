@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-           token: ${{ inputs.pat }}
+          token: ${{ inputs.pat }}
 
       #its possible to use a shell script to run the tests
       - run: |
