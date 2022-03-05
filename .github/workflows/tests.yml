@@ -40,7 +40,7 @@ jobs:
       #its possible to use a shell script to run the tests
       - run: |
           echo "Running tests from JAVA SPRINGBOOT"
-          ls -la
+          dir
 
   # JAVA MAVEN STACK
 
@@ -57,5 +57,5 @@ jobs:
 
       #its possible to use a shell script to run the tests
       - run: |
-          echo "Running build from JAVA MAVEN"
-          ls -la
+          echo "Running tests from JAVA MAVEN"
+          dir
