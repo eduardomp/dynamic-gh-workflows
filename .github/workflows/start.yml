@@ -83,6 +83,7 @@ jobs:
           echo "   PUBLISH: ${{ env.PUBLISH }}"
 
   tests:
+    runs-on: windows-latest
     needs:
       - start
     if: ${{ jobs.start.env.TESTS == 'true' }}
@@ -96,6 +97,7 @@ jobs:
       pat: ${{ secrets.PAT }}
 
   build:
+    runs-on: windows-latest
     needs:
       - tests
     if: ${{ jobs.start.env.BUILD == 'true'}}
@@ -109,6 +111,7 @@ jobs:
       pat: ${{ secrets.PAT }}
 
   publish:
+    runs-on: windows-latest
     needs:
       - build
     if: ${{ jobs.start.env.PUBLISH == 'true'}}
