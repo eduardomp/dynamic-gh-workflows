@@ -82,46 +82,63 @@ jobs:
           echo "     BUILD: ${{ env.BUILD }}"
           echo "   PUBLISH: ${{ env.PUBLISH }}"
 
-  tests:
+  dump_contexts_to_log:
     runs-on: windows-latest
-    needs:
-      - start
-    if: ${{ jobs.start.env.TESTS == 'true' }}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
-    with:
-      tests: ${{ jobs.start.env.TESTS }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
-    secrets:
-      pat: ${{ secrets.PAT }}
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
 
-  build:
-    runs-on: windows-latest
-    needs:
-      - tests
-    if: ${{ jobs.start.env.BUILD == 'true'}}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
-    with:
-      build: ${{ jobs.start.env.BUILD }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
-    secrets:
-      pat: ${{ secrets.PAT }}
+  # tests:
+  #   runs-on: windows-latest
+  #   needs:
+  #     - start
+  #   if: ${{ jobs.start.env.TESTS == 'true' }}
+  #   uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
+  #   with:
+  #     tests: ${{ jobs.start.env.TESTS }}
+  #     stack: ${{ jobs.start.env.STACK }}
+  #     repo_owner: ${{ jobs.start.env.REPO_OWNER }}
+  #     repo_name: ${{ jobs.start.env.REPO_NAME }}
+  #   secrets:
+  #     pat: ${{ secrets.PAT }}
 
-  publish:
-    runs-on: windows-latest
-    needs:
-      - build
-    if: ${{ jobs.start.env.PUBLISH == 'true'}}
-    uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
-    with:
-      build: ${{ jobs.start.env.BUILD }}
-      tests: ${{ jobs.start.env.TESTS }}
-      publish: ${{ jobs.start.env.PUBLISH }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
-    secrets:
-      pat: ${{ secrets.PAT }}
+  #build:
+  #  runs-on: windows-latest
+  #  needs:
+  #    - tests
+  #  if: ${{ jobs.start.env.BUILD == 'true'}}
+  #  uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
+  #  with:
+  #    build: ${{ jobs.start.env.BUILD }}
+  #    stack: ${{ jobs.start.env.STACK }}
+  #    repo_owner: ${{ jobs.start.env.REPO_OWNER }}
+  #    repo_name: ${{ jobs.start.env.REPO_NAME }}
+  #  secrets:
+  #    pat: ${{ secrets.PAT }}#
+
+  #publish:
+  #  runs-on: windows-latest
+  #  needs:
+  #    - build
+  #  if: ${{ jobs.start.env.PUBLISH == 'true'}}
+  #  uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
+  #  with:
+  #    build: ${{ jobs.start.env.BUILD }}
+  #    tests: ${{ jobs.start.env.TESTS }}
+  #    publish: ${{ jobs.start.env.PUBLISH }}
+  #    stack: ${{ jobs.start.env.STACK }}
+  #    repo_owner: ${{ jobs.start.env.REPO_OWNER }}
+  #    repo_name: ${{ jobs.start.env.REPO_NAME }}
+  #  secrets:
+  #    pat: ${{ secrets.PAT }}
