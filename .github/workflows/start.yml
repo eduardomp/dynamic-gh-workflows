@@ -83,19 +83,19 @@ jobs:
           echo "     BUILD: ${{ env.BUILD }}"
           echo "   PUBLISH: ${{ env.PUBLISH }}"
 
-   tests:
-     runs-on: windows-latest
-     needs:
-       - start
-     if: ${{ jobs.start.env.TESTS == 'true' }}
-     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
-     with:
-       tests: ${{ jobs.start.env.TESTS }}
-       stack: ${{ jobs.start.env.STACK }}
-       repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-       repo_name: ${{ jobs.start.env.REPO_NAME }}
-     secrets:
-       pat: ${{ secrets.PAT }}
+  tests:
+    runs-on: windows-latest
+    needs:
+      - start
+    if: ${{ jobs.start.env.TESTS == 'true' }}
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
+    with:
+      tests: ${{ jobs.start.env.TESTS }}
+      stack: ${{ jobs.start.env.STACK }}
+      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
+      repo_name: ${{ jobs.start.env.REPO_NAME }}
+    secrets:
+      pat: ${{ secrets.PAT }}
 
   build:
     runs-on: windows-latest
