@@ -48,7 +48,7 @@ jobs:
         with:
           file: pipeline.properties
           all: true
-        if: ${{ github.event_name == "push" }}
+        if: ${{ github.event_name == 'push' }}
 
       - name: Setting variables for the pipeline (push event)
         run: |
@@ -59,7 +59,7 @@ jobs:
           echo "TESTS=${{ steps.properties.outputs.tests }}" >> $GITHUB_ENV
           echo "BUILD=${{ steps.properties.outputs.build }}" >> $GITHUB_ENV
           echo "PUBLISH=${{ steps.properties.outputs.publish }}" >> $GITHUB_ENV
-        if: ${{ github.event_name == "push" }}
+        if: ${{ github.event_name == 'push' }}
 
       - name: Setting variables for the pipeline (workflow_dispatch event)
         run: |
@@ -70,7 +70,7 @@ jobs:
           echo "TESTS=${{ github.event.inputs.tests }}" >> $GITHUB_ENV
           echo "BUILD=${{ github.event.inputs.build }}" >> $GITHUB_ENV
           echo "PUBLISH=${{ github.event.inputs.publish }}" >> $GITHUB_ENV
-        if: ${{ github.event_name == "workflow_dispatch" }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
 
       - name: Show variables
         run: |
