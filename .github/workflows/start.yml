@@ -44,11 +44,11 @@ jobs:
     steps:
       #- uses: actions/checkout@master
       - uses: madhead/read-java-properties@latest
+        if: ${{ github.event_name == 'push' }}
         id: properties
         with:
           file: pipeline.properties
           all: true
-        if: ${{ github.event_name == 'push' }}
 
       - name: Setting variables for the pipeline (push event)
         if: ${{ github.event_name == 'push' }}
