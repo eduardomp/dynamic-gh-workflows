@@ -93,7 +93,6 @@ jobs:
   tests:
     needs:
       - start
-    if: ${{ env:TESTS == 'true' }}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
       tests: ${{ env.TESTS }}
