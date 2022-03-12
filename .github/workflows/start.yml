@@ -5,13 +5,6 @@ on:
   push:
     branches:
       - main
-env:
-  REPO_NAME: ""
-  REPO_OWNER: ""
-  STACK: ""
-  TESTS: ""
-  BUID: ""
-  PUBLISH: ""
 
   # If you start the workflow mannualy, this is the trigger and the inputs will be readed from the UI
   workflow_dispatch:
@@ -44,6 +37,13 @@ env:
         description: Publish? [depends on build]
         default: true
       #If you need, add more inputs here (for a new phase for example)
+env:
+  REPO_NAME: ""
+  REPO_OWNER: ""
+  STACK: ""
+  TESTS: ""
+  BUID: ""
+  PUBLISH: ""
 
 jobs:
   start:
