@@ -93,12 +93,12 @@ jobs:
   tests:
     needs:
       - start
-    if: ${{ env.TESTS == 'true' }}
+    if: ${{ TESTS == 'true' }}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
-      tests: ${{ env.TESTS }}
-      stack: ${{ env.STACK }}
-      repo_owner: ${{ env.REPO_OWNER }}
-      repo_name: ${{ env.REPO_NAME }}
+      tests: ${{ TESTS }}
+      stack: ${{ STACK }}
+      repo_owner: ${{ REPO_OWNER }}
+      repo_name: ${{ REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
