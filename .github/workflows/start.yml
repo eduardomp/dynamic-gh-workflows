@@ -40,10 +40,11 @@ on:
 env:
   REPO_NAME: ""
   REPO_OWNER: ""
+  REPO: ""
   STACK: ""
-  TESTS: ""
-  BUID: ""
-  PUBLISH: ""
+  TESTS: false
+  BUILD: false
+  PUBLISH: false
 
 jobs:
   start:
@@ -61,46 +62,46 @@ jobs:
       - name: Setting variables for the pipeline (push event)
         if: ${{ github.event_name == 'push' }}
         run: |
-          echo "REPO_OWNER=${{ steps.properties.outputs.repo_owner }}" >> $GITHUB_ENV
-          echo "REPO_NAME=${{ steps.properties.outputs.repo_name }}" >> $GITHUB_ENV
-          echo "REPO=${{ steps.properties.outputs.repo_owner }}/${{ steps.properties.outputs.repo_name }}" >> $GITHUB_ENV
-          echo "STACK=${{ steps.properties.outputs.stack }}" >> $GITHUB_ENV
-          echo "TESTS=${{ steps.properties.outputs.tests }}" >> $GITHUB_ENV
-          echo "BUILD=${{ steps.properties.outputs.build }}" >> $GITHUB_ENV
-          echo "PUBLISH=${{ steps.properties.outputs.publish }}" >> $GITHUB_ENV
+          REPO_OWNER=${{ steps.properties.outputs.repo_owner }}
+          REPO_NAME=${{ steps.properties.outputs.repo_name }}
+          REPO="${{ steps.properties.outputs.repo_owner }}/${{ steps.properties.outputs.repo_name }}"
+          STACK=${{ steps.properties.outputs.stack }}
+          TESTS=${{ steps.properties.outputs.tests }}
+          BUILD=${{ steps.properties.outputs.build }}
+          PUBLISH=${{ steps.properties.outputs.publish }}
 
       - name: Setting variables for the pipeline (workflow_dispatch event)
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
-          echo "REPO_OWNER=${{ github.event.inputs.repo_owner }}" >> $GITHUB_ENV
-          echo "REPO_NAME=${{ github.event.inputs.repo_name }}" >> $GITHUB_ENV
-          echo "REPO=${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}" >> $GITHUB_ENV
-          echo "STACK=${{ github.event.inputs.stack }}" >> $GITHUB_ENV
-          echo "TESTS=${{ github.event.inputs.tests }}" >> $GITHUB_ENV
-          echo "BUILD=${{ github.event.inputs.build }}" >> $GITHUB_ENV
-          echo "PUBLISH=${{ github.event.inputs.publish }}" >> $GITHUB_ENV
+          REPO_OWNER=${{ github.event.inputs.repo_owner }}
+          REPO_NAME=${{ github.event.inputs.repo_name }}
+          REPO="${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}"
+          STACK=${{ github.event.inputs.stack }}
+          TESTS=${{ github.event.inputs.tests }}
+          BUILD=${{ github.event.inputs.build }}
+          PUBLISH=${{ github.event.inputs.publish }}
 
       - name: Show variables
         run: |
-          echo "      REPO: ${{ env.REPO }}"
-          echo "REPO_OWNER: ${{ env.REPO_OWNER }}"
-          echo " REPO_NAME: ${{ env.REPO_NAME }}"
-          echo "     STACK: ${{ env.STACK }}"
-          echo "     TESTS: ${{ env.TESTS }}"
-          echo "     BUILD: ${{ env.BUILD }}"
-          echo "   PUBLISH: ${{ env.PUBLISH }}"
+          echo "      REPO: ${{ REPO }}"
+          echo "REPO_OWNER: ${{ REPO_OWNER }}"
+          echo " REPO_NAME: ${{ REPO_NAME }}"
+          echo "     STACK: ${{ STACK }}"
+          echo "     TESTS: ${{ TESTS }}"
+          echo "     BUILD: ${{ BUILD }}"
+          echo "   PUBLISH: ${{ PUBLISH }}"
 
   tests:
     runs-on: windows-latest
     needs:
       - start
-    if: ${{ $env:TESTS == 'true' }}
+    if: ${{ env:TESTS == 'true' }}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
-      tests: ${{ $env:TESTS }}
-      stack: ${{ $env:STACK }}
-      repo_owner: ${{ $env:REPO_OWNER }}
-      repo_name: ${{ $env:REPO_NAME }}
+      tests: ${{ env:TESTS }}
+      stack: ${{ env:STACK }}
+      repo_owner: ${{ env:REPO_OWNER }}
+      repo_name: ${{ env:REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
 
@@ -108,13 +109,13 @@ jobs:
     runs-on: windows-latest
     needs:
       - tests
-    if: ${{ $env:BUILD == 'true'}}
+    if: ${{ env:BUILD == 'true'}}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
     with:
-      build: ${{ $env:BUILD }}
-      stack: ${{ $env:STACK }}
-      repo_owner: ${{ $env:REPO_OWNER }}
-      repo_name: ${{ $env:REPO_NAME }}
+      build: ${{ env:BUILD }}
+      stack: ${{ env:STACK }}
+      repo_owner: ${{ env:REPO_OWNER }}
+      repo_name: ${{ env:REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}#
 
@@ -122,14 +123,14 @@ jobs:
     runs-on: windows-latest
     needs:
       - build
-    if: ${{ $env:PUBLISH == 'true'}}
+    if: ${{ env:PUBLISH == 'true' }}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
     with:
-      build: ${{ $env:BUILD }}
-      tests: ${{ $env:TESTS }}
-      publish: ${{ $env:PUBLISH }}
-      stack: ${{ $env:STACK }}
-      repo_owner: ${{ $env:REPO_OWNER }}
-      repo_name: ${{ $env:REPO_NAME }}
+      build: ${{ env:BUILD }}
+      tests: ${{ env:TESTS }}
+      publish: ${{ env:PUBLISH }}
+      stack: ${{ env:STACK }}
+      repo_owner: ${{ env:REPO_OWNER }}
+      repo_name: ${{ env:REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
