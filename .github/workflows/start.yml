@@ -87,13 +87,13 @@ jobs:
     runs-on: windows-latest
     needs:
       - start
-    if: ${{ jobs.start.env.TESTS == 'true' }}
+    if: ${{ env.TESTS == 'true' }}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
-      tests: ${{ jobs.start.env.TESTS }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
+      tests: ${{ env.TESTS }}
+      stack: ${{ env.STACK }}
+      repo_owner: ${{ env.REPO_OWNER }}
+      repo_name: ${{ env.REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
 
@@ -101,13 +101,13 @@ jobs:
     runs-on: windows-latest
     needs:
       - tests
-    if: ${{ jobs.start.env.BUILD == 'true'}}
+    if: ${{ env.BUILD == 'true'}}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
     with:
-      build: ${{ jobs.start.env.BUILD }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
+      build: ${{ env.BUILD }}
+      stack: ${{ env.STACK }}
+      repo_owner: ${{ env.REPO_OWNER }}
+      repo_name: ${{ env.REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}#
 
@@ -115,14 +115,14 @@ jobs:
     runs-on: windows-latest
     needs:
       - build
-    if: ${{ jobs.start.env.PUBLISH == 'true'}}
+    if: ${{ env.PUBLISH == 'true'}}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
     with:
-      build: ${{ jobs.start.env.BUILD }}
-      tests: ${{ jobs.start.env.TESTS }}
-      publish: ${{ jobs.start.env.PUBLISH }}
-      stack: ${{ jobs.start.env.STACK }}
-      repo_owner: ${{ jobs.start.env.REPO_OWNER }}
-      repo_name: ${{ jobs.start.env.REPO_NAME }}
+      build: ${{ env.BUILD }}
+      tests: ${{ env.TESTS }}
+      publish: ${{ env.PUBLISH }}
+      stack: ${{ env.STACK }}
+      repo_owner: ${{ env.REPO_OWNER }}
+      repo_name: ${{ env.REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
