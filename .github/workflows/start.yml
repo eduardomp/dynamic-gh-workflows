@@ -62,24 +62,24 @@ jobs:
       - name: Setting variables for the pipeline (push event)
         if: ${{ github.event_name == 'push' }}
         run: |
-          REPO_OWNER=${{ steps.properties.outputs.repo_owner }}
-          REPO_NAME=${{ steps.properties.outputs.repo_name }}
+          REPO_OWNER="${{ steps.properties.outputs.repo_owner }}"
+          REPO_NAME="${{ steps.properties.outputs.repo_name }}"
           REPO="${{ steps.properties.outputs.repo_owner }}/${{ steps.properties.outputs.repo_name }}"
-          STACK=${{ steps.properties.outputs.stack }}
-          TESTS=${{ steps.properties.outputs.tests }}
-          BUILD=${{ steps.properties.outputs.build }}
-          PUBLISH=${{ steps.properties.outputs.publish }}
+          STACK="${{ steps.properties.outputs.stack }}"
+          TESTS="${{ steps.properties.outputs.tests }}"
+          BUILD="${{ steps.properties.outputs.build }}"
+          PUBLISH="${{ steps.properties.outputs.publish }}"
 
       - name: Setting variables for the pipeline (workflow_dispatch event)
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
-          REPO_OWNER=${{ github.event.inputs.repo_owner }}
-          REPO_NAME=${{ github.event.inputs.repo_name }}
+          REPO_OWNER="${{ github.event.inputs.repo_owner }}"
+          REPO_NAME="${{ github.event.inputs.repo_name }}"
           REPO="${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}"
-          STACK=${{ github.event.inputs.stack }}
-          TESTS=${{ github.event.inputs.tests }}
-          BUILD=${{ github.event.inputs.build }}
-          PUBLISH=${{ github.event.inputs.publish }}
+          STACK="${{ github.event.inputs.stack }}"
+          TESTS="${{ github.event.inputs.tests }}"
+          BUILD="${{ github.event.inputs.build }}"
+          PUBLISH="${{ github.event.inputs.publish }}"
 
       - name: Show variables
         run: |
