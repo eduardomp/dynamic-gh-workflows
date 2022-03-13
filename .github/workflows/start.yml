@@ -83,13 +83,13 @@ jobs:
 
       - name: Show variables
         run: |
-          echo "      REPO: ${{ REPO }}"
-          echo "REPO_OWNER: ${{ REPO_OWNER }}"
-          echo " REPO_NAME: ${{ REPO_NAME }}"
-          echo "     STACK: ${{ STACK }}"
-          echo "     TESTS: ${{ TESTS }}"
-          echo "     BUILD: ${{ BUILD }}"
-          echo "   PUBLISH: ${{ PUBLISH }}"
+          echo "      REPO: ${{ env.REPO }}"
+          echo "REPO_OWNER: ${{ env.REPO_OWNER }}"
+          echo " REPO_NAME: ${{ env.REPO_NAME }}"
+          echo "     STACK: ${{ env.STACK }}"
+          echo "     TESTS: ${{ env.TESTS }}"
+          echo "     BUILD: ${{ env.BUILD }}"
+          echo "   PUBLISH: ${{ env.PUBLISH }}"
   tests:
     needs:
       - start
