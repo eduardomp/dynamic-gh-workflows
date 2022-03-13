@@ -42,10 +42,10 @@ jobs:
         if: inputs.stack == 'JAVA SPRINGBOOT'
         run: |
           mvn clean package -DskipTests=true
-          ls -la ./target/
+          ls  ./target/
 
       - name: Build Java Maven Application
         if: inputs.stack == 'JAVA MAVEN'
         run: |
           mvn clean package -DskipTests=true
-          ls -la ./target/
+          ls  ./target/
