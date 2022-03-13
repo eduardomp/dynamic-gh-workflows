@@ -90,15 +90,16 @@ jobs:
           echo "     TESTS: ${{ env.TESTS }}"
           echo "     BUILD: ${{ env.BUILD }}"
           echo "   PUBLISH: ${{ env.PUBLISH }}"
+
   tests:
-    runs-on: ubuntu-latest
     needs:
       - start
+    if: ${{ env.TESTS == 'true'}}
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
-      tests: $env.TESTS
-      stack: $env.STACK
-      repo_owner: $env.REPO_OWNER
-      repo_name: $env.REPO_NAME
+      tests: ${{ env.TESTS }}
+      stack: ${{ env.STACK }}
+      repo_owner: ${{ env.REPO_OWNER }}
+      repo_name: ${{ env.REPO_NAME }}
     secrets:
-      pat: $secrets.PAT
+      pat: ${{ secrets.PAT }}
