@@ -37,18 +37,18 @@ on:
         description: Publish? [depends on build]
         default: true
       #If you need, add more inputs here (for a new phase for example)
-env:
-  REPO_NAME: ""
-  REPO_OWNER: ""
-  REPO: ""
-  STACK: ""
-  TESTS: false
-  BUILD: false
-  PUBLISH: false
 
 jobs:
   start:
     runs-on: ubuntu-latest
+    outputs:
+      REPO_OWNER: ${{ steps.output.outputs.REPO_OWNER }}
+      REPO_NAME: ${{ steps.output.outputs.REPO_NAME }}
+      REPO: ${{ steps.output.outputs.REPO }}
+      STACK: ${{ steps.output.outputs.STACK }}
+      TESTS: ${{ steps.output.outputs.TESTS }}
+      BUILD: ${{ steps.output.outputs.BUILD }}
+      PUBLISH: ${{ steps.output.outputs.PUBLISH }}
     steps:
       - uses: actions/checkout@master
 
@@ -81,25 +81,26 @@ jobs:
           echo "BUILD=${{ inputs.build }}" >> $GITHUB_ENV
           echo "PUBLISH=${{ inputs.publish }}" >> $GITHUB_ENV
 
-      - name: Show variables
+      - name: Set job outputs
+        id: output
         run: |
-          echo "      REPO: ${{ env.REPO }}"
-          echo "REPO_OWNER: ${{ env.REPO_OWNER }}"
-          echo " REPO_NAME: ${{ env.REPO_NAME }}"
-          echo "     STACK: ${{ env.STACK }}"
-          echo "     TESTS: ${{ env.TESTS }}"
-          echo "     BUILD: ${{ env.BUILD }}"
-          echo "   PUBLISH: ${{ env.PUBLISH }}"
+          echo "::set-output name=REPO::${{ env.REPO }}"
+          echo "::set-output name=REPO_OWNER::${{ env.REPO_OWNER }}"
+          echo "::set-output name=REPO_NAME::${{ env.REPO_NAME }}"
+          echo "::set-output name=STACK::${{ env.STACK }}"
+          echo "::set-output name=TESTS::${{ env.TESTS }}"
+          echo "::set-output name=BUILD::${{ env.BUILD }}"
+          echo "::set-output name=PUBLISH::${{ env.PUBLISH }}"
 
   tests:
-    needs:
-      - start
-    if: ${{ env.TESTS == 'true'}}
+    runs-on: ubuntu-latest
+    needs: start
+    if: needs.start.outputs.TESTS == true
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
-      tests: ${{ env.TESTS }}
-      stack: ${{ env.STACK }}
-      repo_owner: ${{ env.REPO_OWNER }}
-      repo_name: ${{ env.REPO_NAME }}
+      tests: ${{ needs.start.outputs.TESTS }}
+      stack: ${{ needs.start.outputs.STACK }}
+      repo_owner: ${{ needs.start.outputs.REPO_OWNER }}
+      repo_name: ${{ needs.start.outputs.REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
