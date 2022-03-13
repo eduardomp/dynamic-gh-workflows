@@ -94,7 +94,7 @@ jobs:
 
   tests:
     needs: start
-    if: needs.start.outputs.TESTS == true
+    if: needs.start.outputs.TESTS == 'true'
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/tests.yml@main
     with:
       tests: ${{ needs.start.outputs.TESTS }}
