@@ -126,8 +126,6 @@ jobs:
     uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
     with:
       publish: ${{ needs.start.outputs.PUBLISH }}
-      tests: ${{ needs.start.outputs.TESTS }}
-      build: ${{ needs.start.outputs.BUILD }}
       stack: ${{ needs.start.outputs.STACK }}
       repo_owner: ${{ needs.start.outputs.REPO_OWNER }}
       repo_name: ${{ needs.start.outputs.REPO_NAME }}
