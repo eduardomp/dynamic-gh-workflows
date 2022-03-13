@@ -20,11 +20,9 @@ on:
         required: true
 
 jobs:
-  # JAVA SPRINGBOOT STACK
-
-  build_java_spring:
+  build:
     runs-on: windows-latest
-    if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
+    if: ${{ inputs.build == 'true' }}
     steps:
       #Its needed to check out the target repo in every separeted job
       - name: Check out target repo
@@ -33,25 +31,21 @@ jobs:
           repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
           token: ${{ secrets.pat }}
 
-      #its possible to use a shell script to run the build
-      - run: |
-          echo "Running build from JAVA SPRINGBOOT"
-          dir
-
-  # JAVA MAVEN STACK
-
-  build_java_maven:
-    runs-on: windows-latest
-    if: ${{ inputs.build == 'true' && inputs.stack == 'JAVA MAVEN' }}
-    steps:
-      #Its needed to check out the target repo in every separeted job
-      - name: Check out target repo
-        uses: actions/checkout@master
+      - name: Setup Java
+        if: ${{ inputs.stack == 'JAVA SPRINGBOOT' || inputs.stack == 'JAVA MAVEN' }}
+        uses: actions/setup-java@v2
         with:
-          repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-          token: ${{ secrets.pat }}
+          distribution: "temurin" # See 'Supported distributions' for available options
+          java-version: "8"
 
-      #its possible to use a shell script to run the build
-      - run: |
-          echo "Running build from JAVA MAVEN"
-          dir
+      - name: Test Java Spring Boot Application
+        if: inputs.stack == 'JAVA SPRINGBOOT'
+        run: |
+          echo "Running tests from JAVA SPRINGBOOT"
+          mvn clean package -DskipTests=true
+
+      - name: Test Java Maven Application
+        if: inputs.stack == 'JAVA MAVEN'
+        run: |
+          echo "Running tests from JAVA MAVEN"
+          mvn clean package -DskipTests=true
