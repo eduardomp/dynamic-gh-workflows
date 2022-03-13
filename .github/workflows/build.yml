@@ -53,5 +53,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ inputs.repo_name }}-${{ github.event.number }}
+          name: ${{ inputs.repo_name }}-${{ GITHUB_RUN_NUMBER }}
           path: target/*.jar
