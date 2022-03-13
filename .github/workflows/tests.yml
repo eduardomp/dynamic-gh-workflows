@@ -20,7 +20,7 @@ on:
         required: true
 
 jobs:
-  tests_java_spring:
+  tests:
     runs-on: windows-latest
     if: ${{ inputs.tests == 'true' }}
     steps:
