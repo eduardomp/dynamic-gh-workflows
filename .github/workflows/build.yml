@@ -42,10 +42,16 @@ jobs:
         if: inputs.stack == 'JAVA SPRINGBOOT'
         run: |
           mvn clean package -DskipTests=true
-          ls  ./target/
+          ls  ./target/*.jar
 
       - name: Build Java Maven Application
         if: inputs.stack == 'JAVA MAVEN'
         run: |
           mvn clean package -DskipTests=true
-          ls  ./target/
+          ls  ./target/*.jar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.repo_name }}-${{ github.event.number }}
+          path: target/*.jar

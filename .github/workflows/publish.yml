@@ -19,39 +19,27 @@ on:
       pat:
         required: true
 
+#GITHUB_RUN_NUMBER can be used to identify the run number
+
 jobs:
-  # JAVA SPRINGBOOT STACK
-
-  publish_java_spring:
+  publish:
     runs-on: windows-latest
-    if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA SPRINGBOOT' }}
+    if: ${{ inputs.publish == 'true' }}
     steps:
       #Its needed to check out the target repo in every separeted job
-      - name: Check out target repo
-        uses: actions/checkout@master
+      - name: Get build artifact
+        uses: actions/download-artifact@v2
         with:
-          repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-          token: ${{ secrets.pat }}
+          name: ${{ inputs.repo_name }}-${{ github.event.number }}
+          path: build
 
-      #its possible to use a shell script to run the tests
-      - run: |
-          echo "Running publish from JAVA SPRINGBOOT"
-          dir
-
-  # JAVA MAVEN STACK
-
-  publish_java_maven:
-    runs-on: windows-latest
-    if: ${{ inputs.publish == 'true' && inputs.stack == 'JAVA MAVEN' }}
-    steps:
-      #Its needed to check out the target repo in every separeted job
-      - name: Check out target repo
-        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repository: ${{ inputs.repo_owner }}/${{ inputs.repo_name }}
-          token: ${{ secrets.pat }}
-
-      #its possible to use a shell script to run the tests
-      - run: |
-          echo "Running publish from JAVA MAVEN"
-          dir
+          tag_name: ${{ inputs.repo_name }}-${{ github.event.number }}
+          release_name: Release ${{ inputs.repo_name }}-${{ github.event.number }}
+          draft: false
+          prerelease: false
