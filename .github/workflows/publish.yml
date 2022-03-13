@@ -19,7 +19,7 @@ on:
       pat:
         required: true
 
-#GITHUB_RUN_NUMBER can be used to identify the run number
+#env.GITHUB_RUN_NUMBER can be used to identify the run number
 
 jobs:
   publish:
@@ -30,7 +30,7 @@ jobs:
       - name: Get build artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ inputs.repo_name }}-${{ GITHUB_RUN_NUMBER }}
+          name: ${{ inputs.repo_name }}-${{ env.GITHUB_RUN_NUMBER }}
           path: build
 
       - name: Create Release
@@ -39,7 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ inputs.repo_name }}-${{ GITHUB_RUN_NUMBER }}
-          release_name: Release ${{ inputs.repo_name }}-${{ GITHUB_RUN_NUMBER }}
+          tag_name: ${{ inputs.repo_name }}-${{ env.GITHUB_RUN_NUMBER }}
+          release_name: Release ${{ inputs.repo_name }}-${{ env.GITHUB_RUN_NUMBER }}
           draft: false
           prerelease: false
