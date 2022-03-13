@@ -38,14 +38,14 @@ jobs:
           distribution: "temurin" # See 'Supported distributions' for available options
           java-version: "8"
 
-      - name: Test Java Spring Boot Application
+      - name: Build Java Spring Boot Application
         if: inputs.stack == 'JAVA SPRINGBOOT'
         run: |
-          echo "Running tests from JAVA SPRINGBOOT"
           mvn clean package -DskipTests=true
+          ls -la ./target/
 
-      - name: Test Java Maven Application
+      - name: Build Java Maven Application
         if: inputs.stack == 'JAVA MAVEN'
         run: |
-          echo "Running tests from JAVA MAVEN"
           mvn clean package -DskipTests=true
+          ls -la ./target/
