@@ -73,13 +73,13 @@ jobs:
       - name: Setting variables for the pipeline (workflow_dispatch event)
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
-          echo "REPO_OWNER=${{ inputs.repo_owner }}" >> $GITHUB_ENV
-          echo "REPO_NAME=${{ inputs.repo_name }}" >> $GITHUB_ENV
-          echo "REPO=${{ inputs.repo_owner }}/${{ inputs.repo_name }}" >> $GITHUB_ENV
-          echo "STACK=${{ inputs.stack }}" >> $GITHUB_ENV
-          echo "TESTS=${{ inputs.tests }}" >> $GITHUB_ENV
-          echo "BUILD=${{ inputs.build }}" >> $GITHUB_ENV
-          echo "PUBLISH=${{ inputs.publish }}" >> $GITHUB_ENV
+          echo "REPO_OWNER=${{ github.event.inputs.repo_owner }}" >> $GITHUB_ENV
+          echo "REPO_NAME=${{ github.event.inputs.repo_name }}" >> $GITHUB_ENV
+          echo "REPO=${{ github.event.inputs.repo_owner }}/${{ github.event.inputs.repo_name }}" >> $GITHUB_ENV
+          echo "STACK=${{ github.event.inputs.stack }}" >> $GITHUB_ENV
+          echo "TESTS=${{ github.event.inputs.tests }}" >> $GITHUB_ENV
+          echo "BUILD=${{ github.event.inputs.build }}" >> $GITHUB_ENV
+          echo "PUBLISH=${{ github.event.inputs.publish }}" >> $GITHUB_ENV
 
       - name: Set job outputs
         id: output
