@@ -103,3 +103,33 @@ jobs:
       repo_name: ${{ needs.start.outputs.REPO_NAME }}
     secrets:
       pat: ${{ secrets.PAT }}
+
+  build:
+    needs:
+      - start
+      - tests
+    if: needs.start.outputs.BUILD == 'true'
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/build.yml@main
+    with:
+      build: ${{ needs.start.outputs.BUILD }}
+      stack: ${{ needs.start.outputs.STACK }}
+      repo_owner: ${{ needs.start.outputs.REPO_OWNER }}
+      repo_name: ${{ needs.start.outputs.REPO_NAME }}
+    secrets:
+      pat: ${{ secrets.PAT }}
+
+  publish:
+    needs:
+      - start
+      - build
+    if: needs.start.outputs.PUBLISH == 'true'
+    uses: eduardomp/dynamic-gh-workflows/.github/workflows/publish.yml@main
+    with:
+      publish: ${{ needs.start.outputs.PUBLISH }}
+      tests: ${{ needs.start.outputs.TESTS }}
+      build: ${{ needs.start.outputs.BUILD }}
+      stack: ${{ needs.start.outputs.STACK }}
+      repo_owner: ${{ needs.start.outputs.REPO_OWNER }}
+      repo_name: ${{ needs.start.outputs.REPO_NAME }}
+    secrets:
+      pat: ${{ secrets.PAT }}
