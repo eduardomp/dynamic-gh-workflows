@@ -32,7 +32,7 @@ jobs:
           token: ${{ secrets.pat }}
 
       - name: Setup Java
-        if: ${{ inputs.stack == 'JAVA SPRINGBOOT' || inputs.stack == 'JAVA MAVEN' }}
+        if: ${{ inputs.stack == 'JAVA SPRINGBOOT' || inputs.stack == 'JAVA MAVEN MULTIMODULE' }}
         uses: actions/setup-java@v2
         with:
           distribution: "temurin" # See 'Supported distributions' for available options
@@ -44,8 +44,8 @@ jobs:
           echo "Running tests from JAVA SPRINGBOOT"
           mvn clean install -DskipTests=false
 
-      - name: Test Java Maven Application
-        if: inputs.stack == 'JAVA MAVEN'
+      - name: Test JAVA MAVEN MULTIMODULE Application
+        if: inputs.stack == 'JAVA MAVEN MULTIMODULE'
         run: |
-          echo "Running tests from JAVA MAVEN"
+          echo "Running tests from JAVA MAVEN MULTIMODULE"
           mvn clean install -DskipTests=false

@@ -32,7 +32,7 @@ jobs:
           token: ${{ secrets.pat }}
 
       - name: Setup Java
-        if: ${{ inputs.stack == 'JAVA SPRINGBOOT' || inputs.stack == 'JAVA MAVEN' }}
+        if: ${{ inputs.stack == 'JAVA SPRINGBOOT' || inputs.stack == 'JAVA MAVEN MULTIMODULE' }}
         uses: actions/setup-java@v2
         with:
           distribution: "temurin" # See 'Supported distributions' for available options
@@ -42,16 +42,16 @@ jobs:
         if: inputs.stack == 'JAVA SPRINGBOOT'
         run: |
           mvn clean package -DskipTests=true
-          ls  ./target/*.jar
 
-      - name: Build Java Maven Application
-        if: inputs.stack == 'JAVA MAVEN'
+      - name: Build JAVA MAVEN MULTIMODULE Application
+        if: inputs.stack == 'JAVA MAVEN MULTIMODULE'
         run: |
           mvn clean package -DskipTests=true
-          ls  ./target/*.jar
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
+      # You need to add the target directory on "path" input if this change or if you want to add a new stack
+      - uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.repo_name }}-${{ github.run_number }}
-          path: target/*.jar
+          path: |
+            target/*-SNAPSHOT.jar
+            module*/target/*-SNAPSHOT.jar
